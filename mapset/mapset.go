@@ -1,6 +1,8 @@
 // Package mapset provides a set implementation using map[T]struct{}
 package mapset
 
+import "iter"
+
 // MapSet is a set of T
 type MapSet[T comparable] map[T]struct{}
 
@@ -8,6 +10,14 @@ type MapSet[T comparable] map[T]struct{}
 func From[T comparable](vs ...T) MapSet[T] {
 	ms := make(MapSet[T], len(vs))
 	for _, v := range vs {
+		ms.Add(v)
+	}
+	return ms
+}
+
+func FromSeq[T comparable](vs iter.Seq[T]) MapSet[T] {
+	ms := MapSet[T]{}
+	for v := range vs {
 		ms.Add(v)
 	}
 	return ms
